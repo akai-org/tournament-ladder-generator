@@ -3,9 +3,10 @@ function zespoly() {
 	if(dane.value != "")
 	{
 		var array = dane.split(",");
+		document.getElementById("dane").innerHTML += "Drużyny:<br>";
 		for(var i=0;i<array.length;i++)
 		{
-			document.getElementById("dane").innerHTML += array[i]+"<br/>";
+			document.getElementById("dane").innerHTML += (i+1)+". "+array[i]+"<br/>";
 		}
 	}
 	document.getElementById("dane").innerHTML += "<br/><br/><br/>";
@@ -31,19 +32,7 @@ function zespoly() {
 			zmienna++;
 		}
 	}
-	document.getElementById("dane").innerHTML += "<br/><br/><br/>";
-	document.getElementById("dane").innerHTML += teams[0].name;
-	
-	
-	
-}
-/*
-`${}
 
-var teams = [
-{
-	"name":"dfsdf"
-	"eliminated":"false"
-	"match":"1"
-}]
-*/
+	//document.getElementById("dane").innerHTML += "<br/><br/><br/>";
+	//document.getElementById("dane").innerHTML += teams[0].name;
+}
