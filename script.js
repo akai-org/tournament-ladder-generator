@@ -20,19 +20,26 @@ function losowanie(teams) {
 //-
 function zespoly() {
 	var dane = document.getElementById("teams2").value;
+	var pole = document.getElementById("dane");
+	
 	if(dane.value != "")
 	{
 		var array = dane.split(",");
 	}
-
-	array = losowanie(array);
-
-	document.getElementById("dane").innerHTML += "Drużyny:<br>";
+	
 	for(var i=0;i<array.length;i++)
 	{
-		document.getElementById("dane").innerHTML += (i+1)+". "+array[i]+"<br/>";
+		array[i] = array[i].trim();
 	}
-  	document.getElementById("dane").innerHTML += "<br/><br/><br/>";
+	
+	array = losowanie(array);
+
+	pole.innerHTML += "Drużyny:<br>";
+	for(var i=0;i<array.length;i++)
+	{
+		pole.innerHTML += (i+1)+". "+array[i]+"<br/>";
+	}
+  	pole.innerHTML += "<br/><br/><br/>";
 	
 	var teams=[];
 	var zmienna = 1;
@@ -56,11 +63,27 @@ function zespoly() {
 	console.log(arrayJSON);
 
 	//odwoływanie sie do JSON
-	document.getElementById("dane").innerHTML += arrayJSON+"<br>";
+	pole.innerHTML += arrayJSON+"<br>";
 
 	var par = JSON.parse(arrayJSON);
-	document.getElementById("dane").innerHTML += par[0].match;
+	pole.innerHTML += par[0].match;
 
+	
+	// testowanie
+	pole.innerHTML += "<br>";
+	
+	for(var i=0;i<par.length;i++)
+	{
+		let nazwa = par[i].name.split(' ').join('_');
+		pole.innerHTML += '<button id='+nazwa+' onclick=eliminowanie('+nazwa+',this)>'+par[i].name+'</button><br/>';
+	}
+
+}
+
+// wyszarzanie przegranych
+function eliminowanie(name,object)
+{
+	object.disabled = true;
 }
 
 
