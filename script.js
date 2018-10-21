@@ -75,9 +75,32 @@ function zespoly() {
 	for(var i=0;i<par.length;i++)
 	{
 		let nazwa = par[i].name.split(' ').join('_');
-		pole.innerHTML += '<button id='+nazwa+' onclick=eliminowanie('+nazwa+',this)>'+par[i].name+'</button><br/>';
+		let mecz = par[i].match;
+		
+		let btn = document.createElement("button");
+		
+		let id = document.createAttribute("id");
+		id.value = nazwa;
+		btn.setAttributeNode(id);
+		
+		let click = document.createAttribute("onclick");
+		click.value = 'funkcje('+nazwa+',this,'+mecz+')';
+		btn.setAttributeNode(click);
+		
+		let txt = document.createTextNode(par[i].name);
+		btn.appendChild(txt);
+		pole.appendChild(btn);
+		
+		//pole.innerHTML += '<button id='+nazwa+' onclick=funkcje('+nazwa+',this,'+mecz+')>'+par[i].name+'</button><br/>';
 	}
 
+}
+
+//rozdzielanie do roznych funkcji
+function funkcje(name,object,match)
+{
+	eliminowanie(name,object);
+	przechodzenie(name,match);
 }
 
 // wyszarzanie przegranych
@@ -86,4 +109,7 @@ function eliminowanie(name,object)
 	object.disabled = true;
 }
 
-
+function przechodzenie(name,match)
+{
+	//tworzenie nowego przycisku w nowej "kolumnie"
+}
