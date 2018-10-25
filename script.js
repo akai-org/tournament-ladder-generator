@@ -131,9 +131,14 @@ function draw_div(array){ 	// funkcja tworzenie div-------------
 				let j=0;
 				array.forEach(function (){ // petla tworzaca divy z druzynami
 					if(array[j].match===i+1){
-							let newTeam=document.createElement("div");
+							let gora=document.createElement("div");
 							newTeam.textContent=array[j].name;
-							newTeam.setAttribute(`id` , `${"team_"}${j}` )
+							newTeam.setAttribute("class","top" );
+							newMatch.appendChild(newTeam);
+							
+							let gora=document.createElement("div");
+							newTeam.textContent=array[j].name;
+							newTeam.setAttribute("class","bottom" );
 							newMatch.appendChild(newTeam);
 					}
 					j++
