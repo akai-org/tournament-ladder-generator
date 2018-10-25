@@ -122,21 +122,43 @@ function draw_div(array){ 	// funkcja tworzenie div-------------
 				let IloscRund=Math.ceil(Math.log2(array.length)); // ilosc rund
 				let kontener=document.getElementById("drabinka");
 			console.log(IloscRund);
+			let druzyna=0;
 			for(let i=0 ; i<IloscRund;i++){ // petla tworzaca diva mecz
+
+//----------------div top--------------------------
+				let newTop=document.createElement("div")
+				newTop.setAttribute(`class` , `top`);
+
+/* --------------------div bottom--------------------- */
+				let newBottom=document.createElement("div")
+				newBottom.setAttribute(`class` , `bottom`);
 
 				let newMatch=document.createElement("div"); //toworzenie diva
 				newMatch.setAttribute(`id` , `${"match_"}${i}`); // nadanie id meczu
+				newMatch.setAttribute(`class` , `match`);
 				kontener.appendChild(newMatch); //dodanie do glownego diva
 
-				let j=0;
-				array.forEach(function (){ // petla tworzaca divy z druzynami
-					if(array[j].match===i+1){
-							let newTeam=document.createElement("div");
-							newTeam.textContent=array[j].name;
-							newTeam.setAttribute(`id` , `${"team_"}${j}` )
-							newMatch.appendChild(newTeam);
-					}
-					j++
-				})
-			}
+				newMatch.appendChild(newTop);
+				newMatch.appendChild(newBottom);
+
+
+						let newTeam=document.createElement("div")
+						newTeam.textContent=array[druzyna].name;
+						newTeam.setAttribute(`id` , `${"team_"}${druzyna}` );
+						newTeam.setAttribute(`class` , `team`);
+						newTop.appendChild(newTeam);
+
+						druzyna++;
+
+						let newTeam2=document.createElement("div");
+						newTeam2.textContent=array[druzyna].name;
+						newTeam2.setAttribute(`class` , `team`);
+						newTeam2.setAttribute(`id` , `${"team_"}${druzyna}` );
+						newBottom.appendChild(newTeam2);
+
+						druzyna++;
+
+
+				}
+
 }
