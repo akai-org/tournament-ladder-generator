@@ -18,6 +18,7 @@ function losowanie(teams) {
 //-
 function zespoly() {
 	var dane = document.getElementById("teams2").value;
+	dane = "Lech Poznan, Legia Warszawa, Wisła Kraków";
 	var pole = document.getElementById("dane");
 
 	if(dane.value != "")
@@ -131,14 +132,9 @@ function draw_div(array){ 	// funkcja tworzenie div-------------
 				let j=0;
 				array.forEach(function (){ // petla tworzaca divy z druzynami
 					if(array[j].match===i+1){
-							let gora=document.createElement("div");
+							let newTeam=document.createElement("div");
 							newTeam.textContent=array[j].name;
-							newTeam.setAttribute("class","top" );
-							newMatch.appendChild(newTeam);
-							
-							let gora=document.createElement("div");
-							newTeam.textContent=array[j].name;
-							newTeam.setAttribute("class","bottom" );
+							newTeam.setAttribute(`id` , `${"team_"}${j}` )
 							newMatch.appendChild(newTeam);
 					}
 					j++
