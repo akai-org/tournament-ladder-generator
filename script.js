@@ -18,6 +18,7 @@ function losowanie(teams) {
 //-
 function zespoly() {
 	var dane = document.getElementById("teams2").value;
+	dane="Lech Poznan,Legia Warszawa, Wisła Kraków, Lechia Gdańsk";
 	var pole = document.getElementById("dane");
 
 	if(dane.value != "")
@@ -65,37 +66,7 @@ function zespoly() {
 
 	var par = JSON.parse(arrayJSON);
 	pole.innerHTML += par[0].match;
-
-
-
-	// testowanie
-	pole.innerHTML += "<br>";
-
-	for(var i=0;i<par.length;i++)
-	{
-		let nazwa = par[i].name.split(' ').join('_');
-		let mecz = par[i].match;
-
-		let btn = document.createElement("button");
-
-		let id = document.createAttribute("id");
-		id.value = nazwa;
-		btn.setAttributeNode(id);
-
-		let click = document.createAttribute("onclick");
-		click.value = 'funkcje('+nazwa+',this,'+mecz+')';
-		btn.setAttributeNode(click);
-
-		let txt = document.createTextNode(par[i].name);
-		btn.appendChild(txt);
-		pole.appendChild(btn);
-
-		//pole.innerHTML += '<button id='+nazwa+' onclick=funkcje('+nazwa+',this,'+mecz+')>'+par[i].name+'</button><br/>';
-
-
-
-
-	}
+	
 	draw_div(par); // wywoalnie funkcji torzenie dov-ow
 
 }
@@ -147,7 +118,17 @@ function draw_div(array){ 	// funkcja tworzenie div-------------
 						newTeam.setAttribute(`id` , `${"team_"}${druzyna}` );
 						newTeam.setAttribute(`class` , `team`);
 						newTop.appendChild(newTeam);
+						
+						let nazwa = array[druzyna].name.split(' ').join('_');
+						let mecz = array[druzyna].match;
 
+						let btn = document.createElement("button");
+						btn.setAttribute(`id`,nazwa);
+						btn.setAttribute(`onclick`,'funkcje('+nazwa+',this,'+mecz+')');
+						btn.textContent=array[i].name;
+						newTop.appendChild(btn);
+						
+						
 						druzyna++;
 
 						let newTeam2=document.createElement("div");
@@ -155,7 +136,17 @@ function draw_div(array){ 	// funkcja tworzenie div-------------
 						newTeam2.setAttribute(`class` , `team`);
 						newTeam2.setAttribute(`id` , `${"team_"}${druzyna}` );
 						newBottom.appendChild(newTeam2);
+						
+						
+						let nazwa2 = array[druzyna].name.split(' ').join('_');
+						let mecz2 = array[druzyna].match;
 
+						let btn2 = document.createElement("button");
+						btn2.setAttribute(`id`,nazwa2);
+						btn2.setAttribute(`onclick`,'funkcje('+nazwa2+',this,'+mecz2+')');
+						btn2.textContent=array[druzyna].name;
+						newBottom.appendChild(btn2);
+						
 						druzyna++;
 
 
