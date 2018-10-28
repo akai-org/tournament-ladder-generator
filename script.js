@@ -50,28 +50,47 @@ function main() {
 		}
 	}
 	
-	draw_div(teams); // wywoalnie funkcji torzenie div-ow
-
+	console.log(teams);
+	draw_div(); // wywoalnie funkcji torzenie div-ow
 }
 
-function transition(stand,object,match)	//rozdzielanie do roznych funkcji
+function transition(object,game)	//rozdzielanie do roznych funkcji
 {
-	lose(stand,object,match);
-	win(stand,match);
+	let win_id = object.id;
+	let win_text = object.innerHTML;
+	let lose_text;
+	
+	for(let i=0;i<teams.length;i++)
+	{
+		if(teams[i].match == game)
+		{
+			if(teams[i].name != win_text)
+			{
+				lose_text = teams[i].name;
+			}
+		}
+	}
+	
+	let lose_id = lose_text.split(' ').join('_');
+	
+	
+	lose(lose_id);
+	win(win_id,win_text);
 }
 
-function lose(stand,object,match)	// wyszarzanie przegranych
+function lose(id)	// wyszarzanie przegranych
 {
-	object.disabled = true;
+	document.getElementById(id).setAttribute("disabled","disabled");
+	//document.getElementById(id).classList.add("team.grayed-out");
 }
 
-function win(stand,match)	//przechodzenie do kolejnego etapu
+function win(id,txt)	//przechodzenie do kolejnego etapu
 {
-
+	alert("Dalej przechodzi druzyna "+txt);
 }
 
-function draw_div(array){ 	// funkcja tworzenie div-------------
-	let round_amount=Math.ceil(Math.log2(array.length)); // ilosc rund
+function draw_div(){ 	// funkcja tworzenie div-------------
+	let round_amount=Math.ceil(Math.log2(teams.length)); // ilosc rund
 	let container=document.getElementById("ladder");
 	console.log(round_amount);
 	let squad=0;
@@ -93,41 +112,33 @@ function draw_div(array){ 	// funkcja tworzenie div-------------
 		newMatch.appendChild(newTop);
 		newMatch.appendChild(newBottom);
 
-
-		let newTeam=document.createElement("div")
-		newTeam.textContent=array[squad].name;
-		newTeam.setAttribute(`id` , `${"team_"}${squad}` );
-		newTeam.setAttribute(`class` , `team`);
-		newTop.appendChild(newTeam);
-		
-		let identyfier = array[squad].name.split(' ').join('_');
-		let game = array[squad].match;
-
-		let btn = document.createElement("button");
-		btn.setAttribute(`onclick`,`transition(${identyfier},this,${game})`);
-		btn.setAttribute(`id`,identyfier);
-		btn.textContent=array[i].name;
-		newTop.appendChild(btn);
-		
-		
-		squad++;
-
-		let newTeam2=document.createElement("div");
-		newTeam2.textContent=array[squad].name;
-		newTeam2.setAttribute(`class` , `team`);
-		newTeam2.setAttribute(`id` , `${"team_"}${squad}` );
-		newBottom.appendChild(newTeam2);
-		
-		let identyfier2 = array[squad].name.split(' ').join('_');
-		let game2 = array[squad].match;
-
-		let btn2 = document.createElement("button");
-		btn2.setAttribute(`id`,identyfier2);
-		btn2.setAttribute(`onclick`,`transition(${identyfier2},this,${game2})`);
-		btn2.textContent=array[squad].name;
-		newBottom.appendChild(btn2);
-		
-		squad++;
-
+//--------------------------------------------------------------------------------------------
+		for(let i=0;i<2;i++)
+		{
+			let newTeam=document.createElement("div")
+			newTeam.textContent=teams[squad].name;
+			newTeam.setAttribute(`id` , `${"team_"}${squad}` );
+			newTeam.setAttribute(`class` , `team`);
+			
+			let identyfier = teams[squad].name.split(' ').join('_');
+			let game = teams[squad].match;
+				
+			let btn = document.createElement("button");
+			btn.setAttribute(`id`,identyfier);
+			btn.setAttribute(`onclick`,`transition(this,${game})`);
+			btn.textContent=teams[squad].name;
+			
+			if(i==0)
+			{
+				newTop.appendChild(newTeam);
+				newTop.appendChild(btn);
+			}
+			else
+			{
+				newBottom.appendChild(newTeam);
+				newBottom.appendChild(btn);
+			}
+			squad++;
 		}
+	}
 }
