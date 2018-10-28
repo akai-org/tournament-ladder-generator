@@ -130,7 +130,7 @@ function draw_div(array){ 	// funkcja tworzenie div-------------
 
 				let j=0;
 				array.forEach(function (){ // petla tworzaca divy z druzynami
-					if(array[j].match===i+1){
+					if((array[j].match===i+1 )&& (array[j].eliminated="false")){
 							let newTeam=document.createElement("div");
 							newTeam.textContent=array[j].name;
 							newTeam.setAttribute(`id` , `${"team_"}${j}` )
