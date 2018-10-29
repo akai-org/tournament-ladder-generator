@@ -32,7 +32,7 @@ function main() {
 
 	array = draw(array);	//funkcja losująca
 
-	
+
 	var number = 1;
 	var check = false;
 	for(var i=0;i<array.length;i++)
@@ -49,7 +49,7 @@ function main() {
 			number++;
 		}
 	}
-	
+
 	console.log(teams);
 	//draw_div(); // wywoalnie funkcji torzenie div-ow
 	proper_draw_div_full_perfect_clear();
@@ -61,7 +61,7 @@ function transition(object,game)	//rozdzielanie do roznych funkcji
 	let win_text = object.innerHTML;
 	let lose_text;
 	let index;
-	
+
 	for(let i=0;i<teams.length;i++)
 	{
 		if(teams[i].match == game)
@@ -74,9 +74,9 @@ function transition(object,game)	//rozdzielanie do roznych funkcji
 			}
 		}
 	}
-	
+
 	let lose_id = lose_text.split(' ').join('_');
-	
+
 	lose(lose_id,index);
 	win(win_id,win_text);
 }
@@ -123,15 +123,15 @@ function draw_div(){ 	// funkcja tworzenie div-------------
 			newTeam.textContent=teams[squad].name;
 			newTeam.setAttribute(`id` , `${"team_"}${squad}` );
 			newTeam.setAttribute(`class` , `team`);
-			
+
 			let identyfier = teams[squad].name.split(' ').join('_');
 			let game = teams[squad].match;
-				
+
 			let btn = document.createElement("button");
 			btn.setAttribute(`id`,identyfier);
 			btn.setAttribute(`onclick`,`transition(this,${game})`);
 			btn.textContent=teams[squad].name;
-			
+
 			if(i==0)
 			{
 				newTop.appendChild(newTeam);
@@ -172,7 +172,7 @@ function draw_empty_div (){
 
 		newMatch.appendChild(newTop);
 		newMatch.appendChild(newBottom);
-		
+
 		matchId++;
 		round_amount/2;
 
@@ -191,7 +191,6 @@ function proper_draw_div_full_perfect_clear(){
 		newRound.classList.add("round");
 		newRound.setAttribute(`id`,`round_${i}`)
 		container.appendChild(newRound);
-		
 		
 		for(let i=0;i<teams_amount;i++)
 		{
@@ -247,5 +246,5 @@ function proper_draw_div_full_perfect_clear(){
 		}
 		teams_amount=teams_amount/2;
 	}
-	
+
 }
