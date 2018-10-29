@@ -52,6 +52,7 @@ function main() {
 	
 	console.log(teams);
 	draw_div(); // wywoalnie funkcji torzenie div-ow
+	//proper_draw_div_full_perfect_clear();
 }
 
 function transition(object,game)	//rozdzielanie do roznych funkcji
@@ -59,6 +60,7 @@ function transition(object,game)	//rozdzielanie do roznych funkcji
 	let win_id = object.id;
 	let win_text = object.innerHTML;
 	let lose_text;
+	let index;
 	
 	for(let i=0;i<teams.length;i++)
 	{
@@ -67,20 +69,22 @@ function transition(object,game)	//rozdzielanie do roznych funkcji
 			if(teams[i].name != win_text)
 			{
 				lose_text = teams[i].name;
+				index=i;
+				break;
 			}
 		}
 	}
 	
 	let lose_id = lose_text.split(' ').join('_');
 	
-	
-	lose(lose_id);
+	lose(lose_id,index);
 	win(win_id,win_text);
 }
 
-function lose(id)	// wyszarzanie przegranych
+function lose(id,index)	// wyszarzanie przegranych
 {
 	document.getElementById(id).setAttribute("disabled","disabled");
+	teams[index].eliminated=true;
 	//document.getElementById(id).classList.add("team.grayed-out");
 }
 
@@ -141,4 +145,51 @@ function draw_div(){ 	// funkcja tworzenie div-------------
 			squad++;
 		}
 	}
+	draw_empty_div()
+}
+
+
+function draw_empty_div (){
+	let round_amount=Math.ceil(Math.log2(teams.length)); // ilosc rund
+	let container=document.getElementById("ladder");
+	let matchId =	round_amount+1;
+	round_amount=round_amount/2;
+	//let teamId=teams.length;
+
+	for(let i=0;i<round_amount;i++){ // petla tworzaca diva mecz
+
+		let newTop=document.createElement("div");
+		newTop.setAttribute(`class` , `top`);
+
+/* --------------------div bottom--------------------- */
+		let newBottom=document.createElement("div")
+		newBottom.setAttribute(`class` , `bottom`);
+
+		let newMatch=document.createElement("div"); //toworzenie diva
+		newMatch.setAttribute(`id` , `${matchId}`); // nadanie id meczu
+		newMatch.setAttribute(`class` , `match`);
+		container.appendChild(newMatch); //dodanie do glownego diva
+
+		newMatch.appendChild(newTop);
+		newMatch.appendChild(newBottom);
+		
+		matchId++;
+		round_amount/2;
+
+ }
+}
+
+function proper_draw_div_full_perfect_clear(){
+	let round_amount = Math.ceil(Math.log2(teams.length));
+	let container=document.getElementById("ladder"); //główny div
+	for(let i=0;i<round_amount;i++)
+	{
+		let newRound=document.createElement("div");
+		newRound.classList.add("round");
+		newRound.setAttribute(`id`,`round_${i}`)
+		container.appendChild(newRound);
+		
+		
+	}
+	
 }
