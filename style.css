@@ -1,0 +1,22 @@
+#ladder{
+	display:flex;
+	flex-direction:column;
+
+}
+
+.match{
+	
+	max-width:500px;
+}
+
+.top{
+	display:flex;
+}
+
+.bottom{
+	display:flex;
+}
+
+.team{
+
+}
