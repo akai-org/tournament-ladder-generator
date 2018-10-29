@@ -51,8 +51,8 @@ function main() {
 	}
 	
 	console.log(teams);
-	draw_div(); // wywoalnie funkcji torzenie div-ow
-	//proper_draw_div_full_perfect_clear();
+	//draw_div(); // wywoalnie funkcji torzenie div-ow
+	proper_draw_div_full_perfect_clear();
 }
 
 function transition(object,game)	//rozdzielanie do roznych funkcji
@@ -182,6 +182,9 @@ function draw_empty_div (){
 function proper_draw_div_full_perfect_clear(){
 	let round_amount = Math.ceil(Math.log2(teams.length));
 	let container=document.getElementById("ladder"); //główny div
+	let squad=0;
+	let teams_amount = teams.length/2;
+	let mnr=0; //numer meczu
 	for(let i=0;i<round_amount;i++)
 	{
 		let newRound=document.createElement("div");
@@ -190,6 +193,59 @@ function proper_draw_div_full_perfect_clear(){
 		container.appendChild(newRound);
 		
 		
+		for(let i=0;i<teams_amount;i++)
+		{
+			let newTop=document.createElement("div")
+			newTop.setAttribute(`class` , `top`);
+			
+			let newBottom=document.createElement("div")
+			newBottom.setAttribute(`class` , `bottom`);
+
+			let newMatch=document.createElement("div"); //toworzenie diva
+			newMatch.setAttribute(`id` , `${"match_"}${mnr}`); // nadanie id meczu
+			newMatch.setAttribute(`class` , `match`);
+			container.appendChild(newMatch); //dodanie do glownego diva
+
+			newMatch.appendChild(newTop);
+			newMatch.appendChild(newBottom);
+			newRound.appendChild(newMatch);
+			
+			for(let j=0;j<2;j++)
+			{
+				let newTeam=document.createElement("div");
+				newTeam.setAttribute(`class` , `team`);
+				
+				let btn = document.createElement("button");
+				
+				if(squad<=teams.length)
+				{
+					newTeam.textContent=teams[squad].name;
+					newTeam.setAttribute(`id` , `${"team_"}${squad}` );
+					
+					let identyfier = teams[squad].name.split(' ').join('_');
+					let game = teams[squad].match;
+					
+					btn.setAttribute(`onclick`,`transition(this,${game})`);
+					btn.setAttribute(`id`,identyfier);
+					btn.textContent=teams[squad].name;
+				}
+
+				if(j==0)
+				{
+					newTop.appendChild(newTeam);
+					newTop.appendChild(btn);
+				}
+				else
+				{
+					newBottom.appendChild(newTeam);
+					newBottom.appendChild(btn);
+				}
+				squad++;
+			}
+			
+			mnr++;
+		}
+		teams_amount=teams_amount/2;
 	}
 	
 }
