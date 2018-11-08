@@ -2,15 +2,15 @@ const teams = [];
 
 function main() {
   // główna funkcja
-  const data = document.getElementById("teams").value;
+  let data = document.getElementById("teams").value; //dla ułatwienia wprowadzania danych na razie const zmienione na let
   data =
     "Lech Poznan,Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin, Arka Gdynia, Zaglebie Lublin, Gornik Zabrze";
 
-  const array = data.split(",").map((e, i, a) => {
+  let array = data.split(",").map((e, i, a) => {
     return e.trim();
   });
 
-  array = draw(array);
+  array = draw(array); //wywala blad gdy array jest const
 
   var number = 1;
   var check = false;
