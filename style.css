@@ -1,0 +1,49 @@
+#ladder {
+  display: flex;
+  flex-direction: row;
+  justify-content: center space-between;
+  width: 100vh;
+  /*background-color: #003096;*/
+}
+.round {
+  display: flex;
+  flex-direction: column;
+  justify-content: center space-between;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.match {
+  /* color: #030202; */
+  border: 0.1rem solid black;
+  padding: 0.3rem;
+  margin: 1rem;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  min-width: 100px;
+  /*background-color: #CCAE8A;*/
+}
+
+.top > div {
+  float: left;
+}
+
+.top > button {
+  float: right;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+  min-width: 100px;
+  /*background-color: #AB8557;*/
+}
+
+.team {
+}
+.team-grayed-out {
+  background-color: #787373;
+  color: #453c3c;
+}
