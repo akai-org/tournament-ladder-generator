@@ -3,6 +3,7 @@
 	flex-direction: row;
 	justify-content: center space-between;
 	width: 100vh;
+	height: 100vh;
 	background-color: #003096;
 }
 .round{
@@ -12,6 +13,7 @@
 }
 .match{
 	color: #030202;
+	align-items: center;
 }
 
 .top{
@@ -30,7 +32,7 @@
 .team{
 
 }
-.lose{
+.team-grayed-out{
 	background-color: #787373;
 	color: #453C3C;
 }
