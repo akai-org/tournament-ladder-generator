@@ -1,10 +1,15 @@
 const teams = [];
+let round_amount;
 
 function main() {
   // główna funkcja
   let data = document.getElementById("teams").value; //dla ułatwienia wprowadzania danych na razie const zmienione na let
+  //data =
+  //  "Lech Poznan,Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin, Arka Gdynia, Zaglebie Lublin, Gornik Zabrze";
   data =
-    "Lech Poznan,Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin, Arka Gdynia, Zaglebie Lublin, Gornik Zabrze";
+    "Lech Poznan, Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin";
+
+  document.getElementById("start").style.display = "none";
 
   let array = data.split(",").map((e, i, a) => {
     return e.trim();
@@ -12,10 +17,11 @@ function main() {
 
   array = draw(array); //wywala blad gdy array jest const
 
-  var number = 1;
-  var check = false;
-  for (var i = 0; i < array.length; i++) {
-    teams[i] = { name: array[i], eliminated: "false", match: number };
+  /*let number = 1;
+  let check = false;
+
+  for (let i = 0; i < array.length; i++) {
+    teams[i] = { name: array[i], eliminated: "false", round: 1, match: number };
 
     if (check == false) {
       check = true;
@@ -23,21 +29,22 @@ function main() {
       check = false;
       number++;
     }
-  }
+  }*/
+  fix_teams(array);
+  round_amount = Math.ceil(Math.log2(teams.length));
 
-  console.log(teams);
   draw_div();
+  insert();
+  console.log(teams);
 }
 
 function draw(teams) {
   //funkcja losujaca
-  let B = [];
-  B = teams;
+  const B = teams;
   teams = [];
-  let position;
   while (B.length != 0) {
-    let position = Math.floor(Math.random() * B.length);
-    let team = B[position];
+    const position = Math.floor(Math.random() * B.length);
+    const team = B[position];
     teams.push(team);
     B.splice(position, 1);
   }
@@ -46,12 +53,12 @@ function draw(teams) {
 
 function transition(object, game) {
   //rozdzielanie do roznych funkcji
-  let win_id = object.id;
-  let win_text = object.getAttribute("data-name");
+  const win_id = object.id;
+  const win_text = object.getAttribute("data-name");
   console.log("game: " + game);
-
   let lose_text;
   let lose_i, win_i;
+
   for (let i = 0; i < teams.length; i++) {
     if (teams[i].match == game) {
       if (teams[i].name != win_text) {
@@ -62,8 +69,9 @@ function transition(object, game) {
       }
     }
   }
+
   console.log("Druzyna ktora przegrala: " + lose_text);
-  let lose_id = lose_text.split(" ").join("_");
+  const lose_id = lose_text.split(" ").join("_");
   //console.log("Index druzyny ktora przegrala: "+lose_i);
   //console.log("Index druzyny ktora wygrala: "+win_i);
   console.log(object);
@@ -74,7 +82,8 @@ function transition(object, game) {
 
 function lose(id, index) {
   // wyszarzanie przegranych
-  let lose = document.getElementById(id);
+  const lose = document.getElementById(id);
+
   lose.setAttribute("disabled", "disabled");
   lose.innerHTML = "&#x2613";
   teams[index].eliminated = true;
@@ -83,37 +92,49 @@ function lose(id, index) {
 
 function win(id, txt, game, index) {
   //przechodzenie do kolejnego etapu
-  let win = document.getElementById(id);
+  const win = document.getElementById(id);
+  const sum = eliminated_check();
+
   win.innerHTML = "&#x2714";
   win.removeAttribute("id");
-  let sum = eliminated_check();
 
   if (sum != 1) {
-    let p1 = next_round_number(game); // numer potrzebny do identyfikacji meczu
-    let p2 = next_round_tb(game); // sprawdza czy ma byc top czy bottom
-    let p = `${p2}_${p1}`;
+    const p1 = next_round_number(game); // numer potrzebny do identyfikacji meczu
+    /* const p2 = next_round_tb(game); // sprawdza czy ma byc top czy bottom
+    const p = `${p2}_${p1}`;
+    const div = document.getElementById(p).children;
     console.log("p1: " + p1);
-    let div = document.getElementById(p).children;
+    console.log("p2: " + p2);
+    */
+    let p = `top_${p1}`;
 
+    if (check_empty(p) == 1) {
+      p = `bottom_${p1}`;
+    }
+
+    const div = document.getElementById(p).children;
     div[0].innerHTML = txt; //div
     div[1].id = id; //przycisk
-    div[1].setAttribute(`onclick`, `transition(this,${p1 + 1})`);
+    div[1].setAttribute(`onclick`, `transition(this,${p1})`);
     div[1].setAttribute(`data-name`, `${txt}`);
-
-    teams[index].match = p1 + 1;
+    teams[index].match = p1;
   } else {
     alert("Turniej wygrała " + txt);
   }
 }
 
+function check_empty(place) {
+  const d = document.getElementById(place).children;
+  if (d[0].innerHTML != "") return 1;
+}
+
 function next_round_number(game) {
-  //console.log(teams.length/2+game-1-temp_array(game-1));
-  return teams.length / 2 + game - 1 - temp_array(game - 1); //wzor: ilsc druzyn + index meczu - watrosc tablicy[index meczu]
+  return teams_in_round(1) / 2 + game - temp_array(game - 1); //wzor: ilsc druzyn + index meczu - watrosc tablicy[index meczu]
 }
 
 function temp_array(value) {
   //określenie ile miejsc ma sie przesuwać dana "druzyna"
-  let a = [];
+  const a = [];
   a[0] = 0;
   let num = 1;
   let check = false;
@@ -129,13 +150,13 @@ function temp_array(value) {
 
   return a[value];
 }
-
+/*
 function next_round_tb(game) {
   //okreslanie czy dana druznyna ma przejsc do top czy bottom
   if (game % 2 != 0) return "top";
   else return "bottom";
 }
-
+*/
 function eliminated_check() {
   //funkcja sprawdzajaca ile druzyn zostalo
   let sum = 0;
@@ -147,27 +168,44 @@ function eliminated_check() {
 
 function draw_div() {
   // funkcja torzenia div-ow
-  let round_amount = Math.ceil(Math.log2(teams.length));
-  let container = document.getElementById("ladder"); //główny div
+  const container = document.getElementById("ladder"); //główny div
   let squad = 0;
-  let teams_amount = teams.length / 2; //liczba meczy w danej rundzie
-  let mnr = 0; //numer meczu
+  let mnr = 1; //numer meczu
+  const c = special_round();
+
+  if (c == 0) round_amount += 1;
+
   for (let i = 0; i < round_amount; i++) {
-    let newRound = document.createElement("div");
+    const newRound = document.createElement("div");
     newRound.classList.add("round");
     newRound.setAttribute(`id`, `round_${i}`);
     container.appendChild(newRound);
+    const l = teams.length - c;
+
+    if (i == 0) {
+      if (c != 0) {
+        teams_amount = l;
+      } else {
+        teams_amount = 0;
+      }
+    } else if (i == 1) {
+      if (c != 0) {
+        teams_amount = (teams.length - l) / 2;
+      } else {
+        teams_amount = teams.length / 2;
+      }
+    }
 
     for (let i = 0; i < teams_amount; i++) {
-      let newTop = document.createElement("div"); //tworzenie	diva top
+      const newTop = document.createElement("div"); //tworzenie	diva top
       newTop.setAttribute(`class`, `top`);
       newTop.setAttribute(`id`, `top_${mnr}`);
 
-      let newBottom = document.createElement("div"); //tworzenie diva bottom
+      const newBottom = document.createElement("div"); //tworzenie diva bottom
       newBottom.setAttribute(`class`, `bottom`);
       newBottom.setAttribute(`id`, `bottom_${mnr}`);
 
-      let newMatch = document.createElement("div"); //tworzenie diva meczu
+      const newMatch = document.createElement("div"); //tworzenie diva meczu
       newMatch.setAttribute(`id`, `${"match_"}${mnr}`);
       newMatch.setAttribute(`class`, `match`);
       container.appendChild(newMatch); //dodanie do glownego diva
@@ -177,23 +215,11 @@ function draw_div() {
       newRound.appendChild(newMatch);
 
       for (let j = 0; j < 2; j++) {
-        let newTeam = document.createElement("div"); //tworzenie diva druzyny
+        const newTeam = document.createElement("div"); //tworzenie diva druzyny
         newTeam.setAttribute(`class`, `team`);
 
-        let btn = document.createElement("button"); //tworzenie przycisku druzyny
+        const btn = document.createElement("button"); //tworzenie przycisku druzyny
         btn.textContent = "-";
-
-        if (squad < teams.length) {
-          newTeam.textContent = teams[squad].name;
-          //newTeam.setAttribute(`id` , `${"team_"}${squad}` );
-
-          let identyfier = teams[squad].name.split(" ").join("_");
-          let game = teams[squad].match;
-
-          btn.setAttribute(`onclick`, `transition(this,${game})`);
-          btn.setAttribute(`id`, identyfier);
-          btn.setAttribute(`data-name`, `${teams[squad].name}`);
-        }
 
         if (j == 0) {
           //przypisywanie do top albo bottom
@@ -209,4 +235,145 @@ function draw_div() {
     }
     teams_amount = teams_amount / 2;
   }
+}
+
+function teams_in_round(round) {
+  //funkcja sprawdzajaca ile druzyn jest w danej rundzie
+  let sum = 0;
+  for (let i = 0; i < teams.length; i++) {
+    if (teams[i].round == round) sum++;
+  }
+  return sum;
+}
+
+function insert() {
+  //funkcja wstawiajaca druzyny w odpowiednie miejsca
+  const ladder = document.getElementById("ladder").children; //pobranie divow round
+  let top = 0;
+  for (let i = 0; i < teams.length; i++) {
+    const round_no = teams[i].round; //numer rundy
+    const game = teams[i].match; //numer meczu
+
+    for (let j = 0; j < round_amount; j++) {
+      //znalezienie odpowiedniego meczu dla danej druzyny
+      if (ladder[j].id == `round_${round_no}`) {
+        //console.log("Druzyna " + i + " znalazla div o id: " + ladder[j].id);
+        const round_div = document.getElementById(`round_${round_no}`).children;
+
+        for (let k = 0; k < round_div.length; k++) {
+          if (round_div[k].id == `match_${game}`) {
+            const match_div = document.getElementById(`match_${game}`).children;
+            const identyfier = teams[i].name.split(" ").join("_");
+            let team_div;
+            let team_btn;
+
+            if (check_empty(`top_${game}`) == 1) {
+              const bottom_div = match_div[1].children;
+              team_div = bottom_div[0];
+              team_btn = bottom_div[1];
+            } else {
+              const top_div = match_div[0].children;
+              team_div = top_div[0];
+              team_btn = top_div[1];
+            }
+
+            team_div.textContent = teams[i].name;
+            team_btn.setAttribute(`onclick`, `transition(this,${game})`);
+            team_btn.setAttribute(`id`, identyfier);
+            team_btn.setAttribute(`data-name`, `${teams[i].name}`);
+          }
+        }
+      }
+    }
+  }
+}
+
+function fix_teams(a) {
+  /*const t = [4, 8, 16, 32];
+  let j = 0;
+
+  for (let i = 0; i < t.length; i++) {
+    if (teams.length > t[i] && teams.length < t[i + 1]) {
+      //console.log("t: " + teams.length + ">" + t[i]);
+      j = t[i];
+      break;
+    }
+  }*/
+
+  /*if (j != 0) {
+    let game = j - 1;
+    //console.log("j=k: " + j);
+    //console.log("game: " + game);
+    //console.log("long: " + (teams.length - j));
+
+    for (let i = j; i < teams.length; i++) {
+      teams[i].round = 2;
+      teams[i].match = game;
+      game++;
+    }
+  }*/
+
+  let number = 1;
+  let check = false;
+
+  for (let i = 0; i < a.length; i++) {
+    //tu np. okreslac przed teams[i] wyzej jaki ma byc numer rundy i jaki meczs
+    teams[i] = { name: a[i], eliminated: "false", round: 1, match: number };
+
+    if (check == false) {
+      check = true;
+    } else {
+      check = false;
+      number++;
+    }
+  }
+
+  //sprobowac polaczyc te fory
+
+  const j = special_round();
+  console.log("j: " + j);
+  const i = teams.length - j;
+  console.log("i: " + i);
+  if (j != 0) {
+    let k = 0;
+    let lg = 0;
+
+    for (let a = 0; a < 2; a++) {
+      if (a == 0) {
+        let b = 0;
+
+        for (b; b < i * 2; b++) {
+          teams[b].round = a;
+        }
+        k = b;
+        lg = teams[b].match;
+        console.log("k: " + k);
+        console.log("lg- " + lg);
+      } else {
+        let l = lg;
+
+        for (k; k < teams.length; k++) {
+          //console.log("k: " + k);
+          if (i > 0) {
+          }
+          teams[k].match = l;
+          l++;
+        }
+      }
+    }
+  }
+}
+
+function special_round() {
+  const t = [4, 8, 16, 32];
+  let x = 0;
+
+  for (let i = 0; i < t.length; i++) {
+    if (teams.length > t[i] && teams.length < t[i + 1]) {
+      x = t[i];
+      break;
+    }
+  }
+
+  return x;
 }

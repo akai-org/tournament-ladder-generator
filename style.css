@@ -3,7 +3,7 @@
   flex-direction: row;
   justify-content: center space-between;
   width: 100vh;
-  /*background-color: #003096;*/
+}
 .round {
   display: flex;
   flex-direction: column;
@@ -12,7 +12,6 @@
   margin-bottom: auto;
 }
 .match {
-  /* color: #030202; */
   border: 0.1rem solid black;
   padding: 0.3rem;
   margin: 1rem;
@@ -22,7 +21,7 @@
   display: flex;
   flex-direction: row;
   min-width: 100px;
-  /*background-color: #CCAE8A;*/
+  justify-content: space-between;
 }
 
 .top > div {
@@ -37,10 +36,11 @@
   display: flex;
   flex-direction: row;
   min-width: 100px;
-  /*background-color: #AB8557;*/
+  justify-content: space-between;
 }
 
 .team {
+  padding-right: 0.2rem;
 }
 
 .team-grayed-out {
