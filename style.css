@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: center space-between;
   width: 100vh;
+
 }
 .round {
   display: flex;
@@ -15,6 +16,12 @@
   border: 0.1rem solid black;
   padding: 0.3rem;
   margin: 1rem;
+}
+.match button{
+
+}
+.match button:hover{
+	background-color: red;
 }
 
 .top {
