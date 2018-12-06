@@ -5,7 +5,7 @@ function main() {
   // główna funkcja
   let data = document.getElementById("teams").value; //dla ułatwienia wprowadzania danych na razie const zmienione na let
   //data =
-  //  "Lech Poznan,Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin, Arka Gdynia";
+  //  "Lech Poznan,Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin, Arka Gdynia, Zaglebie Lublin, Gornik Zabrze";
   data =
     "Lech Poznan, Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin";
 
@@ -88,7 +88,10 @@ function win(id, txt, game, index) {
   win.removeAttribute("id");
 
   if (sum != 1) {
-    if (r == 0) game -= 10;
+    if (r == 0) {
+      game -= 10;
+      teams[index].round = 1;
+    }
 
     const p1 = next_round_number(game, r); // numer potrzebny do identyfikacji meczu
     console.log("p1: " + p1);
@@ -115,19 +118,22 @@ function check_empty(place) {
 }
 
 function next_round_number(game, round) {
-  let r;
   let res;
   console.log("round: " + round);
   if (round == 0) {
     res = 1;
   } else {
-    r = teams_in_round(round) + teams_in_round(round - 1) / 2;
-    res = r / 2 + game - temp_array(game - 1); //wzor: ilsc druzyn + index meczu - watrosc tablicy[index meczu]
+    res = teams_in_round(round) / 2 + game - temp_array(game - 1); //wzor: ilsc druzyn + index meczu - watrosc tablicy[index meczu]
   }
-  console.log("r: " + r);
   console.log("game: " + game);
 
   return res;
+}
+
+function teams_in_round(round) {
+  //funkcja sprawdzajaca ile druzyn jest w danej rundzie
+  const tir = document.getElementById(`round_${round}`).children.length;
+  return tir * 2;
 }
 
 function temp_array(value) {
@@ -228,15 +234,6 @@ function draw_div() {
     }
     teams_amount = teams_amount / 2;
   }
-}
-
-function teams_in_round(round) {
-  //funkcja sprawdzajaca ile druzyn jest w danej rundzie
-  let sum = 0;
-  for (let i = 0; i < teams.length; i++) {
-    if (teams[i].round == round) sum++;
-  }
-  return sum;
 }
 
 function insert() {
