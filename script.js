@@ -1,4 +1,5 @@
 const teams = [];
+const sr = [];
 let round_amount;
 
 function main() {
@@ -6,8 +7,7 @@ function main() {
   let data = document.getElementById("teams").value; //dla ułatwienia wprowadzania danych na razie const zmienione na let
   //data =
   //  "Lech Poznan,Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin, Arka Gdynia, Zaglebie Lublin, Gornik Zabrze";
-  data =
-    "Lech Poznan, Legia Warszawa, Wisła Kraków, Lechia Gdańsk, Pogoń Szczecin";
+  data = "1,2,3,4,5,6,7,8,9,10,11";
 
   document.getElementById("start").style.display = "none";
 
@@ -16,11 +16,9 @@ function main() {
   });
 
   array = draw(array); //wywala blad gdy array jest const
+  round_amount = Math.ceil(Math.log2(array.length));
 
   fix_teams(array);
-
-  round_amount = Math.ceil(Math.log2(teams.length));
-
   draw_div();
   insert();
   console.log(teams);
@@ -43,7 +41,6 @@ function transition(object, game) {
   //rozdzielanie do roznych funkcji
   const win_id = object.id;
   const win_text = object.getAttribute("data-name");
-  console.log("game: " + game);
   let lose_text;
   let lose_i, win_i;
 
@@ -57,12 +54,7 @@ function transition(object, game) {
       }
     }
   }
-
-  console.log("Druzyna ktora przegrala: " + lose_text);
   const lose_id = lose_text.split(" ").join("_");
-  //console.log("Index druzyny ktora przegrala: "+lose_i);
-  //console.log("Index druzyny ktora wygrala: "+win_i);
-  console.log(object);
 
   lose(lose_id, lose_i);
   win(win_id, win_text, game, win_i);
@@ -89,12 +81,11 @@ function win(id, txt, game, index) {
 
   if (sum != 1) {
     if (r == 0) {
-      game -= 10;
+      game -= 10 * round_amount;
       teams[index].round = 1;
     }
 
     const p1 = next_round_number(game, r); // numer potrzebny do identyfikacji meczu
-    console.log("p1: " + p1);
     let p = `top_${p1}`;
 
     if (check_empty(p) == 1) {
@@ -118,14 +109,14 @@ function check_empty(place) {
 }
 
 function next_round_number(game, round) {
+  //określenie numeru kolejnego meczu
   let res;
-  console.log("round: " + round);
+
   if (round == 0) {
-    res = 1;
+    res = sr[game] - 10 * round_amount;
   } else {
     res = teams_in_round(round) / 2 + game - temp_array(game - 1); //wzor: ilsc druzyn + index meczu - watrosc tablicy[index meczu]
   }
-  console.log("game: " + game);
 
   return res;
 }
@@ -133,6 +124,7 @@ function next_round_number(game, round) {
 function teams_in_round(round) {
   //funkcja sprawdzajaca ile druzyn jest w danej rundzie
   const tir = document.getElementById(`round_${round}`).children.length;
+
   return tir * 2;
 }
 
@@ -142,6 +134,7 @@ function temp_array(value) {
   a[0] = 0;
   let num = 1;
   let check = false;
+
   for (let i = 1; i < value + 1; i++) {
     a[i] = num;
     if (check == false) {
@@ -158,9 +151,11 @@ function temp_array(value) {
 function eliminated_check() {
   //funkcja sprawdzajaca ile druzyn zostalo
   let sum = 0;
+
   for (let i = 0; i < teams.length; i++) {
     if (teams[i].eliminated == "false") sum++;
   }
+
   return sum;
 }
 
@@ -168,7 +163,7 @@ function draw_div() {
   // funkcja torzenia div-ow
   const container = document.getElementById("ladder"); //główny div
   let squad = 0;
-  let mnr = 11; //numer meczu
+  let mnr = 10 * round_amount + 1; //numer meczu
   const length = teams.length;
   const c = special_round(length);
   let p = 1;
@@ -263,13 +258,14 @@ function insert() {
 }
 
 function fix_teams(a) {
-  let number = 11;
+  let number = 10 * round_amount + 1;
   let check = false;
   const length = a.length;
   const j = special_round(length);
   let m = (length - j) * 2;
   let n = length - j;
   let c = 0;
+  let x = 1;
 
   for (let i = 0; i < a.length; i++) {
     let r = 1;
@@ -295,6 +291,8 @@ function fix_teams(a) {
       check = true;
     } else {
       check = false;
+      sr[x] = number;
+      x++;
       number++;
     }
 
@@ -306,7 +304,7 @@ function fix_teams(a) {
 }
 
 function special_round(a) {
-  const t = [4, 8, 16, 32];
+  const t = [4, 8, 16, 32, 64];
   let x = 0;
 
   for (let i = 0; i < t.length; i++) {
