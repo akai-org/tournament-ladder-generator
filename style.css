@@ -1,0 +1,80 @@
+*{
+  box-sizing: border-box;
+}
+body{
+
+background-color: #021930
+}
+#ladder {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100vh;
+
+}
+.round {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: auto;
+  margin-bottom: auto;
+  min-width: 12rem;
+}
+.match {
+  border: 0.1rem solid black;
+  padding: 0.3rem;
+  margin: 1rem;
+  background-color: #FFF8AD;
+  justify-content: center;
+
+}
+.match button{
+
+}
+.match button:hover{
+  outline-color: #13AD20;
+  outline-style: solid;
+  outline-width: 0.08rem;
+
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  min-width: 100px;
+  justify-content: space-between;
+  background-color: #0037FF;
+  background-image: linear-gradient(#0037FF, #033261);
+  color: #DCDFE8;
+  padding: 5%;
+/*  white-space: nowrap;*/
+}
+
+.top > div {
+  float: left;
+}
+
+.top > button {
+  float: right;
+
+}
+.bottom {
+  display: flex;
+  flex-direction: row;
+  min-width: 100px;
+  justify-content: space-between;
+  background-image: linear-gradient(#385FEB, #325980);
+  color: #DCDFE8;
+  padding: 5%;
+
+}
+
+.team {
+  padding-right: 0.2rem;
+}
+
+.team-grayed-out {
+  background-color: #787373;
+  color: #453c3c;
+
+}
