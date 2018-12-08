@@ -1,6 +1,6 @@
-
+var teams=[];
 //-----------------funkcja losujaca ---------------  B - tablica pomocnicza
-function losowanie(teams) {
+function draw(teams) {
 	let B=[];
 	B=teams;
 	teams=[];
@@ -16,13 +16,13 @@ function losowanie(teams) {
 }
 
 //-
-function zespoly() {
-	var dane = document.getElementById("teams2").value;
-	var pole = document.getElementById("dane");
+function main() {
+	var data = document.getElementById("teams").value;
+	data="Lech Poznan,Legia Warszawa, Wisła Kraków, Lechia Gdańsk";
 
-	if(dane.value != "")
+	if(data.value != "")
 	{
-		var array = dane.split(",");
+		var array = data.split(",");
 	}
 
 	for(var i=0;i<array.length;i++)
@@ -30,103 +30,88 @@ function zespoly() {
 		array[i] = array[i].trim();
 	}
 
-	array = losowanie(array);
+	array = draw(array);	//funkcja losująca
 
-	pole.innerHTML += "Drużyny:<br>";
+
+	var number = 1;
+	var check = false;
 	for(var i=0;i<array.length;i++)
 	{
-		pole.innerHTML += (i+1)+". "+array[i]+"<br/>";
-	}
-  	pole.innerHTML += "<br/><br/><br/>";
+		teams[i] = {name:array[i],eliminated:"false",match:number};
 
-	var teams=[];
-	var zmienna = 1;
-	var sprawdzenie = false;
-	for(var i=0;i<array.length;i++)
-	{
-		teams[i] = {name:array[i],eliminated:"false",match:zmienna};
-
-		if(sprawdzenie==false)
+		if(check==false)
 		{
-			sprawdzenie=true;
+			check=true;
 		}
 		else
 		{
-			sprawdzenie=false;
-			zmienna++;
+			check=false;
+			number++;
 		}
 	}
 
-	var arrayJSON = JSON.stringify(teams);
-	console.log(arrayJSON);
+	console.log(teams);
+	draw_div(); // wywoalnie funkcji torzenie div-ow
+}
 
-	//odwoływanie sie do JSON
-	pole.innerHTML += arrayJSON+"<br>";
+function transition(object,game)	//rozdzielanie do roznych funkcji
+{
+	let win_id = object.id;
+	let win_text = object.innerHTML;
+	let lose_text;
 
-	var par = JSON.parse(arrayJSON);
-	pole.innerHTML += par[0].match;
-
-
-
-	// testowanie
-	pole.innerHTML += "<br>";
-
-	for(var i=0;i<par.length;i++)
+	for(let i=0;i<teams.length;i++)
 	{
-		let nazwa = par[i].name.split(' ').join('_');
-		let mecz = par[i].match;
-
-		let btn = document.createElement("button");
-
-		let id = document.createAttribute("id");
-		id.value = nazwa;
-		btn.setAttributeNode(id);
-
-		let click = document.createAttribute("onclick");
-		click.value = 'funkcje('+nazwa+',this,'+mecz+')';
-		btn.setAttributeNode(click);
-
-		let txt = document.createTextNode(par[i].name);
-		btn.appendChild(txt);
-		pole.appendChild(btn);
-
-		//pole.innerHTML += '<button id='+nazwa+' onclick=funkcje('+nazwa+',this,'+mecz+')>'+par[i].name+'</button><br/>';
-
-
-
-
+		if(teams[i].match == game)
+		{
+			if(teams[i].name != win_text)
+			{
+				lose_text = teams[i].name;
+			}
+		}
 	}
-	draw_div(par); // wywoalnie funkcji torzenie dov-ow
 
+	let lose_id = lose_text.split(' ').join('_');
+
+
+	lose(lose_id);
+	win(win_id,win_text);
 }
 
-//rozdzielanie do roznych funkcji
-function funkcje(name,object,match)
+function lose(id)	// wyszarzanie przegranych
 {
-	eliminowanie(name,object);
-	przechodzenie(name,match);
+	document.getElementById(id).setAttribute("disabled","disabled");
+	//document.getElementById(id).classList.add("team.grayed-out");
 }
 
-// wyszarzanie przegranych
-function eliminowanie(name,object)
+function win(id,txt)	//przechodzenie do kolejnego etapu
 {
-	object.disabled = true;
+	alert("Dalej przechodzi druzyna "+txt);
 }
 
-function przechodzenie(name,match)
-{
-	//tworzenie nowego przycisku w nowej "kolumnie"
-}
+function draw_div(){ 	// funkcja tworzenie div-------------
+	let round_amount=Math.ceil(Math.log2(teams.length)); // ilosc rund
+	let container=document.getElementById("ladder");
+	console.log(round_amount);
+	let squad=0;
+	for(let i=0;i<round_amount;i++){ // petla tworzaca diva mecz
 
-function draw_div(array){ 	// funkcja tworzenie div-------------
-				let IloscRund=Math.ceil(Math.log2(array.length)); // ilosc rund
-				let kontener=document.getElementById("drabinka");
-			console.log(IloscRund);
-			for(let i=0 ; i<IloscRund;i++){ // petla tworzaca diva mecz
+//----------------div top--------------------------
+		let newTop=document.createElement("div")
+		newTop.setAttribute(`class` , `top`);
 
-				let newMatch=document.createElement("div"); //toworzenie diva
-				newMatch.setAttribute(`id` , `${"match_"}${i}`); // nadanie id meczu
-				kontener.appendChild(newMatch); //dodanie do glownego diva
+/* --------------------div bottom--------------------- */
+		let newBottom=document.createElement("div")
+		newBottom.setAttribute(`class` , `bottom`);
+
+		let newMatch=document.createElement("div"); //toworzenie diva
+		newMatch.setAttribute(`id` , `${"match_"}${i}`); // nadanie id meczu
+		newMatch.setAttribute(`class` , `match`);
+		container.appendChild(newMatch); //dodanie do glownego diva
+
+		newMatch.appendChild(newTop);
+		newMatch.appendChild(newBottom);
+
 
 				let j=0;
 				array.forEach(function (){ // petla tworzaca divy z druzynami
@@ -138,5 +123,66 @@ function draw_div(array){ 	// funkcja tworzenie div-------------
 					}
 					j++
 				})
+
+//--------------------------------------------------------------------------------------------
+		for(let i=0;i<2;i++)
+		{
+			let newTeam=document.createElement("div")
+			newTeam.textContent=teams[squad].name;
+			newTeam.setAttribute(`id` , `${"team_"}${squad}` );
+			newTeam.setAttribute(`class` , `team`);
+
+			let identyfier = teams[squad].name.split(' ').join('_');
+			let game = teams[squad].match;
+
+			let btn = document.createElement("button");
+			btn.setAttribute(`id`,identyfier);
+			btn.setAttribute(`onclick`,`transition(this,${game})`);
+			btn.textContent=teams[squad].name;
+
+			if(i==0)
+			{
+				newTop.appendChild(newTeam);
+				newTop.appendChild(btn);
 			}
+			else
+			{
+				newBottom.appendChild(newTeam);
+				newBottom.appendChild(btn);
+
+			}
+			squad++;
+		}
+	}
+}
+
+
+
+
+
+function draw_empty_div (array){
+	let round_amount=Math.ceil(Math.log2(teams.length)); // ilosc rund
+	let container=document.getElementById("ladder");
+	matchId=	round_amount;
+	round_amount=round_amount/2;
+	teamId=array.length;
+
+	for(let i=0;i<round_amount;i++){ // petla tworzaca diva mecz
+
+		let newTop=document.createElement("div")
+		newTop.setAttribute(`class` , `top`);
+
+/* --------------------div bottom--------------------- */
+		let newBottom=document.createElement("div")
+		newBottom.setAttribute(`class` , `bottom`);
+
+		let newMatch=document.createElement("div"); //toworzenie diva
+		newMatch.setAttribute(`id` , `${matchId}`); // nadanie id meczu
+		newMatch.setAttribute(`class` , `match`);
+		container.appendChild(newMatch); //dodanie do glownego diva
+
+		newMatch.appendChild(newTop);
+		newMatch.appendChild(newBottom);
+
+ }
 }
