@@ -45,7 +45,7 @@ form{
   border: 0.1rem solid black;
   padding: 0.3rem;
   margin: 1rem;
-  background-color: #FFF8AD;
+  background-image: linear-gradient(#B04C00, #470B02);
   justify-content: center;
 
 }
