@@ -25,6 +25,7 @@ function main() {
 }
 
 function draw(teams) {
+  changeName(); //pdomiana nazwy
   //funkcja losujaca
   const B = teams;
   teams = [];
@@ -315,4 +316,11 @@ function special_round(a) {
   }
 
   return x;
+}
+
+
+function changeName(){
+  const name=document.getElementsById("name").value;
+  let title=document.getElementById("title");
+  title.textContent=name;
 }

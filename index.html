@@ -6,10 +6,29 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="start">
-      <textarea cols="30" rows="5" id="teams"></textarea>
-      <button onclick="main()">prześlij</button>
-    </div>
+    <section id="title">
+      tournament ladder generator
+    </section>
+<section>
+
+  <div id="start">
+    <div class="lewy">
+        Nazwa turnieju<br />
+        nazwy drużyn:<br />
+      </div>
+      <div class="prawy">
+      <form action="">
+        <input type="text" placeholder="nazwa turnieju" id="name" /><br />
+     <textarea cols="30" rows="5" id="teams" placeholder="nazwy dużyn oddzielone ",""></textarea><br />
+   </div>
+   <br />
+
+     <button onclick="main()">prześlij</button>
+
+    </form>
+  </div>
+</section>
+
     <div id="ladder"></div>
 
     <script src="script.js"></script>
