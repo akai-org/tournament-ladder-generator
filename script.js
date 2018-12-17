@@ -3,6 +3,17 @@ const sr = [];
 let round_amount;
 
 function main() {
+  //podmiana tytulu
+  const name=document.getElementById("name");
+  let title=document.getElementById('title');
+  if(name.value!=""){
+    title.textContent=name.value;
+  }
+  else {
+    title.textContent="tournament ladder generator";
+  }
+
+
   // główna funkcja
   let data = document.getElementById("teams").value; //dla ułatwienia wprowadzania danych na razie const zmienione na let
   //data =
@@ -25,7 +36,6 @@ function main() {
 }
 
 function draw(teams) {
-  changeName(); //pdomiana nazwy
   //funkcja losujaca
   const B = teams;
   teams = [];
@@ -316,11 +326,4 @@ function special_round(a) {
   }
 
   return x;
-}
-
-
-function changeName(){
-  const name=document.getElementsById("name").value;
-  let title=document.getElementById("title");
-  title.textContent=name;
 }

@@ -16,26 +16,14 @@ section{
   text-shadow: #7A0D0D 0 0 10px;
 }
 #start{
+  padding-top: 3%;
   margin: auto;
-  position: relative;
   width: 50vw;
 }
 
-#start > div{
-    width: 50%;
-  }
-#start>div.lewy{
-align-self: flex-end;
-}
-#start>div.prawy{{
-align-self: flex-start;
-}
-#start div form{
-  width: 45%;
-}
-#start section{
-  text-align: center;
-  align-self: flex-end;
+
+form{
+  width: 50%;
 }
 
 #ladder {
