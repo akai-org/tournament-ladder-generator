@@ -6,10 +6,34 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <section id="title">
+      tournament ladder generator
+    </section>
     <div id="start">
+<<<<<<< HEAD
       Nazwa Turnieju <input type="text" id="title" placeholder="nazwa turnieju" /><br /><br />
       Nazwy drużyn<br />
       <textarea cols="30" rows="5" id="teams" placeholder="nazwy drużyn oddzielone ','"></textarea>
+=======
+    <table>
+      <tr>
+        <td>
+          Nazwa turnieju
+        </td>
+        <td>
+            <input type="text" placeholder="nazwa turnieju" id="name" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Nazwa drużyn
+        </td>
+        <td>
+          <textarea cols="30" rows="5" id="teams" placeholder="nazwy dużyn oddzielone ",""></textarea>
+        </td>
+      </tr>
+    </table>
+>>>>>>> 794c88d907ec02a13db1f120aa41f9e364150c69
       <button onclick="main()">prześlij</button>
     </div>
     <div id="ladder"></div>

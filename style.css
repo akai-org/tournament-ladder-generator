@@ -6,6 +6,27 @@ body{
 color: #DCDFE8;
 background-color: #021930
 }
+section{
+  display: flex;
+  justify-content: center;
+
+}
+#title{
+  margin-top: 2%;
+  font-size: 3rem;
+  text-shadow: #7A0D0D 0 0 10px;
+}
+#start{
+  padding-top: 3%;
+  margin: auto;
+  width: 50vw;
+}
+
+
+form{
+  width: 50%;
+}
+
 #ladder {
   display: flex;
   flex-direction: row;
