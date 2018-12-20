@@ -4,15 +4,13 @@ let round_amount;
 
 function main() {
   //podmiana tytulu
-  const name=document.getElementById("name");
-  let title=document.getElementById('title');
-  if(name.value!=""){
-    title.textContent=name.value;
+  const name = document.getElementById("name");
+  let title = document.getElementById("title");
+  if (name.value != "") {
+    title.textContent = name.value;
+  } else {
+    title.textContent = "tournament ladder generator";
   }
-  else {
-    title.textContent="tournament ladder generator";
-  }
-
 
   // główna funkcja
   let data = document.getElementById("teams").value; //dla ułatwienia wprowadzania danych na razie const zmienione na let
@@ -79,6 +77,17 @@ function lose(id, index) {
   lose.innerHTML = "&#x2613";
   teams[index].eliminated = true;
   lose.classList.add("team-grayed-out");
+
+  let parent = lose.parentElement;
+  const nazwa = parent.className;
+
+  parent = parent.parentElement.children;
+
+  let i;
+  if (nazwa == "top") i = 0;
+  else i = 1;
+
+  parent[i].classList.add("team-grayed-out");
 }
 
 function win(id, txt, game, index) {
@@ -89,6 +98,7 @@ function win(id, txt, game, index) {
 
   win.innerHTML = "&#x2714";
   win.removeAttribute("id");
+  win.setAttribute("disabled", "disabled");
 
   if (sum != 1) {
     if (r == 0) {

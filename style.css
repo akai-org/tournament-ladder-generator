@@ -1,28 +1,43 @@
-*{
+* {
   box-sizing: border-box;
 }
-body{
-color: #DCDFE8;
-background-color: #021930
+body {
+  color: #dcdfe8;
+  background-color: #021930;
 }
-section{
+section {
   display: flex;
   justify-content: center;
-
 }
-#title{
+#title {
   margin-top: 2%;
   font-size: 3rem;
-  text-shadow: #7A0D0D 0 0 10px;
+  text-shadow: #7a0d0d 0 0 10px;
 }
-#start{
+#start {
   padding-top: 3%;
   margin: auto;
   width: 50vw;
+  font-size: 1.5rem;
+}
+#start input,
+textarea {
+  width: 100%;
+  text-align: center;
+  border-radius: 20px;
+}
+#start > button {
+  position: relative;
+  font-size: 1.2rem;
+  left: 50%;
+  background-color: white;
+  border-radius: 20px;
+}
+#start > button:hover {
+  transform: scale(1.1);
 }
 
-
-form{
+form {
   width: 50%;
 }
 
@@ -31,7 +46,6 @@ form{
   flex-direction: row;
   justify-content: space-between;
   width: 100vh;
-
 }
 .round {
   display: flex;
@@ -45,18 +59,14 @@ form{
   border: 0.1rem solid black;
   padding: 0.3rem;
   margin: 1rem;
-  background-image: linear-gradient(#B04C00, #470B02);
+  background-image: linear-gradient(#b04c00, #470b02);
   justify-content: center;
-
 }
-.match button{
 
-}
-.match button:hover{
-  outline-color: #13AD20;
+.match button:hover {
+  outline-color: #13ad20;
   outline-style: solid;
   outline-width: 0.08rem;
-
 }
 
 .top {
@@ -64,11 +74,11 @@ form{
   flex-direction: row;
   min-width: 100px;
   justify-content: space-between;
-  background-color: #0037FF;
-  background-image: linear-gradient(#0037FF, #033261);
-  color: #DCDFE8;
+  background-color: #0037ff;
+  background-image: linear-gradient(#0037ff, #033261);
+  color: #dcdfe8;
   padding: 5%;
-/*  white-space: nowrap;*/
+  /*  white-space: nowrap;*/
 }
 
 .top > div {
@@ -77,17 +87,15 @@ form{
 
 .top > button {
   float: right;
-
 }
 .bottom {
   display: flex;
   flex-direction: row;
   min-width: 100px;
   justify-content: space-between;
-  background-image: linear-gradient(#385FEB, #325980);
-  color: #DCDFE8;
+  background-image: linear-gradient(#385feb, #325980);
+  color: #dcdfe8;
   padding: 5%;
-
 }
 
 .team {
@@ -95,7 +103,7 @@ form{
 }
 
 .team-grayed-out {
-  background-color: #787373;
-  color: #453c3c;
+  background-image: linear-gradient(#3b3838, #606264);
 
+  color: #ffffff;
 }
