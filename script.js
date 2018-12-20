@@ -81,7 +81,7 @@ function lose(id, index) {
   const lose = document.getElementById(id);
 
   lose.setAttribute("disabled", "disabled");
-  lose.innerHTML = "&#x2613";
+  lose.innerHTML = "🕱";
   teams[index].eliminated = true;
   lose.classList.add("team-grayed-out");
 }
@@ -92,7 +92,7 @@ function win(id, txt, game, index) {
   const sum = eliminated_check();
   const r = teams[index].round;
 
-  win.innerHTML = "&#x2714";
+  win.innerHTML = "🏆";
   win.removeAttribute("id");
 
   if (sum != 1) {
@@ -213,7 +213,7 @@ function draw_div() {
         newTeam.setAttribute(`class`, `team`);
 
         const btn = document.createElement("button"); //tworzenie przycisku druzyny
-        btn.textContent = "-";
+        btn.textContent = "🠊 ";
 
         if (j == 0) {
           //przypisywanie do top albo bottom
